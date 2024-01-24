@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:spiderhead/main.dart';
+import 'package:spiderhead/utils/color.dart';
 
 class ProgressBar extends ConsumerWidget {
   const ProgressBar({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    var color = ref.watch(colorProvider);
+    var statusColor = ref.watch(colorProvider);
     return CustomPaint(
-      painter: LinePainter(colorTranslatorIntTmp(color)),
+      painter: LinePainter(ColorHelper.getValue(statusColor).color),
       child: Container(),
     );
   }
@@ -26,7 +27,9 @@ class LinePainter extends CustomPainter {
       ..strokeCap = StrokeCap.round;
 
     canvas.drawLine(const Offset(0.0, 0.0), Offset(size.width, 0), paint);
-    paint.color = const Color.fromARGB(255, 19, 67, 106);
+    paint.color =
+        //Color.fromARGB(200, 31, 102, 164).;
+        const Color.fromARGB(255, 19, 67, 106);
     paint.strokeWidth = 14;
     canvas.drawLine(const Offset(0.0, 0.0), Offset(size.width, 0.0), paint);
     paint.color = color;
@@ -38,22 +41,5 @@ class LinePainter extends CustomPainter {
   @override
   bool shouldRepaint(covariant CustomPainter oldDelegate) {
     return false;
-  }
-}
-
-Color colorTranslatorIntTmp(int color) {
-  switch (color) {
-    case 0:
-      return Color(0xFF2196F3);
-    case 1:
-      return Color(0xFFFFEB3B);
-    case 2:
-      return Color(0xFF4CAF50);
-    case 3:
-      return Color(0xFF6B12AA);
-    case 4:
-      return Color(0xFF2731E4);
-    default:
-      return Colors.black;
   }
 }

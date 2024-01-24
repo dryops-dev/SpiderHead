@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:spiderhead/main.dart';
 
 enum ArrowDirection {
   left,
   right,
 }
 
-class ArrowIcon extends StatelessWidget {
+class ArrowIcon extends ConsumerWidget {
   const ArrowIcon({
     super.key,
     required this.direction,
@@ -14,17 +16,39 @@ class ArrowIcon extends StatelessWidget {
   final ArrowDirection direction;
 
   @override
-  Widget build(BuildContext context) {
-    return CustomPaint(
-      painter: direction == ArrowDirection.left
-          ? ArrowPainterLeft()
-          : ArrowPainterRight(),
-      child: const SizedBox(
-        width: 40,
-        height: 40,
+  Widget build(BuildContext context, WidgetRef ref) {
+    var tmp = ref.watch(colorProvider.notifier);
+    return GestureDetector(
+      onTap: () async {
+        //changer avec un fonction d'incrementation dans le state
+        //changer de stateProvider à ..?
+        if (direction == ArrowDirection.left) {
+          if (tmp.state == 0) {
+            tmp.state = 4;
+          } else {
+            tmp.state--;
+          }
+        } else {
+          if (tmp.state == 4) {
+            tmp.state = 0;
+          } else {
+            tmp.state++;
+          }
+        }
+      },
+      child: CustomPaint(
+        painter: direction == ArrowDirection.left
+            ? ArrowPainterLeft()
+            : ArrowPainterRight(),
+        child: const SizedBox(
+          width: 40,
+          height: 40,
+        ),
       ),
     );
   }
+
+  //Faire l'incremntation via state
 }
 
 //Svg Meilleur solution

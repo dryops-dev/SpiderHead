@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:spiderhead/layouts/vertical_layout.dart';
 import 'package:spiderhead/layouts/horizontal_layout.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
   runApp(
     const ProviderScope(
-      // Wrap your app with ProviderScope
       child: MyApp(),
     ),
   );
@@ -15,18 +18,17 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'SpiderHead Demo',
       theme: ThemeData(),
-      home: const MyHomePage(title: 'SpiderHead Demo'),
+      home: const MyHomePage(title: 'SpiderHead'),
     );
   }
 }
 
-final colorProvider = StateProvider<int>((ref) => 0);
+final colorProvider = StateProvider<double>((ref) => 0);
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:spiderhead/arrows_icons/arrow_icon.dart';
-import 'package:spiderhead/circular_slider.dart';
+import 'package:spiderhead/circular_slider/circular_slider.dart';
 import 'package:spiderhead/data_widgets/heartrate_box.dart';
 import 'package:spiderhead/data_widgets/id_box.dart';
 import 'dart:math' as math;

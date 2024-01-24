@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rive/rive.dart';
 import 'package:spiderhead/main.dart';
+import 'package:spiderhead/utils/color.dart';
 
 class RiveSelectColor extends ConsumerWidget {
   const RiveSelectColor({super.key});
@@ -9,6 +10,12 @@ class RiveSelectColor extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     late StateMachineController controller;
+    late SMIInput<double>? status;
+
+    //Listen for arrowIcons changes
+    ref.listen(colorProvider, (previous, next) {
+      status!.value = next.toDouble();
+    });
     return RiveAnimation.asset(
       'assets/spiderhead.riv',
       onInit: (Artboard artboard) async {
@@ -16,34 +23,20 @@ class RiveSelectColor extends ConsumerWidget {
           artboard,
           'State Machine 1',
           onStateChange: (String a, String b) {
-            ref.watch(colorProvider.notifier).state = colorTranslatorTmp(b);
+            if (b != a) {
+              ref.watch(colorProvider.notifier).state =
+                  ColorHelper.stateFromString(b);
+            }
           },
         )!;
         artboard.addController(controller);
 
         //Need this if web change layout. Get the actual state of Rive Animation
-        SMIInput<double>? levelInput = controller.findInput('Number 1');
-        if (levelInput != null) {
-          levelInput.value = ref.watch(colorProvider.notifier).state.toDouble();
+        status = controller.findInput('Number 1');
+        if (status != null) {
+          status!.value = ref.watch(colorProvider.notifier).state.toDouble();
         }
       },
     );
-  }
-}
-
-int colorTranslatorTmp(String color) {
-  switch (color) {
-    case "Blue":
-      return 0;
-    case "Yellow":
-      return 1;
-    case "Green":
-      return 2;
-    case "Purple":
-      return 3;
-    case "DarkBlue":
-      return 4;
-    default:
-      return -1;
   }
 }
