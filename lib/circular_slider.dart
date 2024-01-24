@@ -2,6 +2,7 @@ import 'dart:math';
 import 'package:vector_math/vector_math.dart' hide Colors;
 import 'package:flutter/material.dart';
 
+double radius = 135;
 double strokeWidth = 30;
 const fullAngleInRadians = pi * 2;
 double toRadian(double value) => (value * pi) / 180;
@@ -13,15 +14,11 @@ Offset toPolar(Offset center, double radians, double radius) =>
 
 class CircularSlider extends StatefulWidget {
   final ValueChanged<double> onAngleChanged;
-  final double radius;
-  final double width;
 
   const CircularSlider({
-    Key? key,
+    super.key,
     required this.onAngleChanged,
-    required this.radius,
-    required this.width,
-  }) : super(key: key);
+  });
 
   @override
   State<CircularSlider> createState() => _CircularSliderState();
@@ -38,61 +35,67 @@ class _CircularSliderState extends State<CircularSlider> {
 
   @override
   Widget build(BuildContext context) {
-    //Size screenSize = MediaQuery.of(context).size;
-    Size canvasSize = Size(widget.width, widget.width);
-    Offset center = canvasSize.center(Offset.zero);
-    Offset knobPos = toPolar(center, currentAngle + startAngle, widget.radius);
+    return LayoutBuilder(
+        builder: (BuildContext context, BoxConstraints constaint) {
+      Size screenSize = constaint.biggest;
+      Size canvasSize = screenSize;
+      radius = (screenSize.height) / 2.5;
 
-    print(widget.radius);
-    return Stack(
-      children: [
-        CustomPaint(
-          size: canvasSize,
-          child: Container(),
-          painter: SliderPainter(
-              startAngle: startAngle,
-              currentAngle: currentAngle,
-              radius: widget.radius),
+      Offset center = canvasSize.center(Offset.zero);
+      Offset knobPos =
+          toPolar(center, currentAngle + startAngle, /*widget.radius*/ radius);
+
+      print(screenSize);
+      return Container(
+        child: Stack(
+          children: [
+            CustomPaint(
+              size: canvasSize,
+              painter: SliderPainter(
+                startAngle: startAngle,
+                currentAngle: currentAngle, /*radius: /*widget.radius*/ radius*/
+              ),
+            ),
+            CustomPaint(
+              size: canvasSize,
+              painter: _CircleDetails(radius: /*widget.radius*/ radius),
+            ),
+            Positioned(
+              left: knobPos.dx - 30,
+              top: knobPos.dy - 30,
+              child: GestureDetector(
+                onPanStart: (details) {
+                  RenderBox getBox = context.findRenderObject() as RenderBox;
+                  _currentDragOffset =
+                      getBox.globalToLocal(details.globalPosition);
+                },
+                onPanUpdate: (details) {
+                  var previousOffset = _currentDragOffset;
+                  _currentDragOffset += details.delta;
+                  var angle = currentAngle +
+                      toAngle(_currentDragOffset, center) -
+                      toAngle(previousOffset, center);
+                  currentAngle = normalizeAngle(angle);
+                  widget.onAngleChanged(currentAngle);
+                  setState(() {});
+                },
+                child: _Knob(),
+              ),
+            ),
+          ],
         ),
-        CustomPaint(
-          size: canvasSize,
-          painter: _CircleDetails(radius: widget.radius),
-        ),
-        Positioned(
-          left: knobPos.dx - 30,
-          top: knobPos.dy - 30,
-          child: GestureDetector(
-            onPanStart: (details) {
-              RenderBox getBox = context.findRenderObject() as RenderBox;
-              _currentDragOffset = getBox.globalToLocal(details.globalPosition);
-            },
-            onPanUpdate: (details) {
-              var previousOffset = _currentDragOffset;
-              _currentDragOffset += details.delta;
-              var angle = currentAngle +
-                  toAngle(_currentDragOffset, center) -
-                  toAngle(previousOffset, center);
-              currentAngle = normalizeAngle(angle);
-              widget.onAngleChanged(currentAngle);
-              setState(() {});
-            },
-            child: _Knob(),
-          ),
-        ),
-      ],
-    );
+      );
+    });
   }
 }
 
 class SliderPainter extends CustomPainter {
   final double startAngle;
   final double currentAngle;
-  final double radius;
 
   SliderPainter({
     required this.startAngle,
     required this.currentAngle,
-    required this.radius,
   });
 
   @override
