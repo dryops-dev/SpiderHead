@@ -1,37 +1,49 @@
- /*void _onRiveInit(Artboard artboard) {
-  final controller = StateMachineController.fromArtboard(
-    artboard,
-    'bumpy',
-    onStateChange: _onStateChange,
-  );
-  artboard.addController(controller!);
-  _bump = controller.findInput<bool>('bump') as SMITrigger;
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rive/rive.dart';
+import 'package:spiderhead/main.dart';
+
+class RiveSelectColor extends ConsumerWidget {
+  const RiveSelectColor({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    late StateMachineController controller;
+    return RiveAnimation.asset(
+      'assets/spiderhead.riv',
+      onInit: (Artboard artboard) async {
+        controller = StateMachineController.fromArtboard(
+          artboard,
+          'State Machine 1',
+          onStateChange: (String a, String b) {
+            ref.watch(colorProvider.notifier).state = colorTranslatorTmp(b);
+          },
+        )!;
+        artboard.addController(controller);
+
+        //Need this if web change layout. Get the actual state of Rive Animation
+        SMIInput<double>? levelInput = controller.findInput('Number 1');
+        if (levelInput != null) {
+          levelInput.value = ref.watch(colorProvider.notifier).state.toDouble();
+        }
+      },
+    );
+  }
 }
 
-void _onStateChange(
-  String stateMachineName,
-  String stateName,
-) =>
-    setState(
-      () => message = 'State Changed in $stateMachineName to $stateName',
-    );
-    */
-
-
-
-    //Besoin :
-    //Controle de l'image, que l'on puisse intéragir avec
-    //Changement de status de l'image
-    //Récupération du changement de status pour le mettre sur lapplication
-
-    //BuilderLayout
-    //Creer un layout pour écran en mode paysage
-    //penser à faire le mode tablette si possible plus tard
-
-    //Mettre un riverpod en place pour les status
-    // Riverpod
-    // Status sur le choix de couleur
-    // Status sur la progress bar
-    // Status sur les texts en fonction des personnages. (Comment stocker ? Y a t(il dque les noms ?))
-
-    //Faire marcher les icons droite et gauche
+int colorTranslatorTmp(String color) {
+  switch (color) {
+    case "Blue":
+      return 0;
+    case "Yellow":
+      return 1;
+    case "Green":
+      return 2;
+    case "Purple":
+      return 3;
+    case "DarkBlue":
+      return 4;
+    default:
+      return -1;
+  }
+}

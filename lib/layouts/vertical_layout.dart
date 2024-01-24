@@ -9,6 +9,7 @@ import 'dart:math' as math;
 import 'package:spiderhead/data_widgets/name_box.dart';
 import 'package:spiderhead/data_widgets/quantity_box.dart';
 import 'package:spiderhead/informations.dart';
+import 'package:spiderhead/rive_animation.dart';
 
 class MyVerticalLayout extends StatefulWidget {
   const MyVerticalLayout({super.key});
@@ -28,7 +29,7 @@ class _MyVerticalLayoutState extends State<MyVerticalLayout> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
-            Container(
+            SizedBox(
               height: 300,
               child: Stack(alignment: AlignmentDirectional.center, children: [
                 CircularSlider(
@@ -101,13 +102,8 @@ class _MyVerticalLayoutState extends State<MyVerticalLayout> {
             //// RIVE APPLICATION
             //
             //
-            Expanded(
-              child: Container(
-                //color: Colors.amber,
-                child: const RiveAnimation.asset(
-                  'assets/spiderhead.riv',
-                ),
-              ),
+            const Expanded(
+              child: RiveSelectColor(),
             )
           ],
         ),

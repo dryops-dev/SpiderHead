@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:rive/rive.dart';
 import 'package:spiderhead/arrows_icons/arrow_icon.dart';
 import 'package:spiderhead/circular_slider.dart';
 import 'package:spiderhead/data_widgets/heartrate_box.dart';
@@ -9,6 +8,7 @@ import 'dart:math' as math;
 import 'package:spiderhead/data_widgets/name_box.dart';
 import 'package:spiderhead/data_widgets/quantity_box.dart';
 import 'package:spiderhead/informations.dart';
+import 'package:spiderhead/rive_animation.dart';
 
 class MyHorizontalLayout extends StatefulWidget {
   const MyHorizontalLayout({super.key});
@@ -27,8 +27,7 @@ class _MyHorizontalLayoutState extends State<MyHorizontalLayout> {
       child: Row(
         children: [
           Center(
-            child: Container(
-              //color: Colors.amber,
+            child: SizedBox(
               width: MediaQuery.of(context).size.width / 2,
               height: MediaQuery.of(context).size.width / 2,
               child: Stack(alignment: AlignmentDirectional.center, children: [
@@ -92,11 +91,7 @@ class _MyHorizontalLayoutState extends State<MyHorizontalLayout> {
                     ],
                   ),
                 ),
-                Expanded(
-                  child: RiveAnimation.asset(
-                    'assets/spiderhead.riv',
-                  ),
-                )
+                Expanded(child: RiveSelectColor())
               ],
             ),
           ),

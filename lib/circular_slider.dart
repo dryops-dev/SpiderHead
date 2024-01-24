@@ -1,4 +1,6 @@
 import 'dart:math';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:spiderhead/main.dart';
 import 'package:vector_math/vector_math.dart' hide Colors;
 import 'package:flutter/material.dart';
 
@@ -45,57 +47,81 @@ class _CircularSliderState extends State<CircularSlider> {
       Offset knobPos =
           toPolar(center, currentAngle + startAngle, /*widget.radius*/ radius);
 
-      print(screenSize);
-      return Container(
-        child: Stack(
-          children: [
-            CustomPaint(
-              size: canvasSize,
-              painter: SliderPainter(
-                startAngle: startAngle,
-                currentAngle: currentAngle, /*radius: /*widget.radius*/ radius*/
-              ),
+      return Stack(
+        children: [
+          AbstractSliderPainter(
+            startAngle: startAngle,
+            currentAngle: currentAngle,
+            canvasSize: canvasSize, /*radius: /*widget.radius*/ radius*/
+          ),
+          CustomPaint(
+            size: canvasSize,
+            painter: _CircleDetails(radius: /*widget.radius*/ radius),
+          ),
+          Positioned(
+            left: knobPos.dx - 30,
+            top: knobPos.dy - 30,
+            child: GestureDetector(
+              onPanStart: (details) {
+                RenderBox getBox = context.findRenderObject() as RenderBox;
+                _currentDragOffset =
+                    getBox.globalToLocal(details.globalPosition);
+              },
+              onPanUpdate: (details) {
+                var previousOffset = _currentDragOffset;
+                _currentDragOffset += details.delta;
+                var angle = currentAngle +
+                    toAngle(_currentDragOffset, center) -
+                    toAngle(previousOffset, center);
+                currentAngle = normalizeAngle(angle);
+                widget.onAngleChanged(currentAngle);
+                setState(() {});
+              },
+              child: const _Knob(),
             ),
-            CustomPaint(
-              size: canvasSize,
-              painter: _CircleDetails(radius: /*widget.radius*/ radius),
-            ),
-            Positioned(
-              left: knobPos.dx - 30,
-              top: knobPos.dy - 30,
-              child: GestureDetector(
-                onPanStart: (details) {
-                  RenderBox getBox = context.findRenderObject() as RenderBox;
-                  _currentDragOffset =
-                      getBox.globalToLocal(details.globalPosition);
-                },
-                onPanUpdate: (details) {
-                  var previousOffset = _currentDragOffset;
-                  _currentDragOffset += details.delta;
-                  var angle = currentAngle +
-                      toAngle(_currentDragOffset, center) -
-                      toAngle(previousOffset, center);
-                  currentAngle = normalizeAngle(angle);
-                  widget.onAngleChanged(currentAngle);
-                  setState(() {});
-                },
-                child: _Knob(),
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       );
     });
+  }
+}
+
+class AbstractSliderPainter extends ConsumerWidget {
+  final double startAngle;
+  final double currentAngle;
+  final Size canvasSize;
+
+  const AbstractSliderPainter({
+    super.key,
+    required this.startAngle,
+    required this.currentAngle,
+    required this.canvasSize,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    var color = ref.watch(colorProvider);
+    return CustomPaint(
+      size: canvasSize,
+      painter: SliderPainter(
+        startAngle: startAngle,
+        currentAngle: currentAngle,
+        color:
+            colorTranslatorIntTmp(color), /*radius: /*widget.radius*/ radius*/
+      ),
+    );
   }
 }
 
 class SliderPainter extends CustomPainter {
   final double startAngle;
   final double currentAngle;
+  final Color color;
 
   SliderPainter({
     required this.startAngle,
     required this.currentAngle,
+    required this.color,
   });
 
   @override
@@ -110,7 +136,7 @@ class SliderPainter extends CustomPainter {
       ..color = Color(0xFF4CAF50)
       ..color = Color(0xFF6B12AA)
       ..color = Color(0xFF2731E4)
-      ..color = Color(0xFF2196F3)
+      ..color = color
       ..style = PaintingStyle.stroke
       ..strokeWidth = strokeWidth
       ..strokeCap = StrokeCap.round;
@@ -213,4 +239,21 @@ class _CircleDetails extends CustomPainter {
 
   @override
   bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
+}
+
+Color colorTranslatorIntTmp(int color) {
+  switch (color) {
+    case 0:
+      return Color(0xFF2196F3);
+    case 1:
+      return Color(0xFFFFEB3B);
+    case 2:
+      return Color(0xFF4CAF50);
+    case 3:
+      return Color(0xFF6B12AA);
+    case 4:
+      return Color(0xFF2731E4);
+    default:
+      return Colors.black;
+  }
 }

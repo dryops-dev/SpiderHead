@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:spiderhead/layouts/vertical_layout.dart';
 import 'package:spiderhead/layouts/horizontal_layout.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    const ProviderScope(
+      // Wrap your app with ProviderScope
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -19,6 +25,8 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
+final colorProvider = StateProvider<int>((ref) => 0);
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
