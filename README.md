@@ -19,7 +19,7 @@ Project who recreate the application of the Netflix movie "SpiderHead". The goal
 
 ## Screenshots
 
-![App Screenshot](https://github.com/dryops-dev/SpiderHead/blob/main/screenshot.jpg)
+<img src="https://github.com/dryops-dev/SpiderHead/blob/main/screenshot.jpg)" width="100" height="100">
 
 
 ## Rive
