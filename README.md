@@ -1,16 +1,38 @@
-# spiderhead
+# SpiderHead
 
-A new Flutter project.
+Project who recreate the application of the Netflix movie "SpiderHead". The goal is to reproduce exactly the design in flutter.
 
-## Getting Started
 
-This project is a starting point for a Flutter application.
+## Features
 
-A few resources to get you started if this is your first Flutter project:
+- Graduated Slider
+- Selection Mode
+- Cross platform
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Tech Stack
+
+**Front:** Flutter
+
+**Tools:** Riverpod (state), Rive
+
+
+## Screenshots
+
+![App Screenshot](https://github.com/dryops-dev/SpiderHead/blob/main/screenshot.jpg)
+
+
+## Rive
+
+Usage of [Rive](https://rive.app/) to get a touchable image with a state who can interact with the application.
+
+
+
+
+## Riverpod
+
+Usage of [Riverpod](https://riverpod.dev/) to deal with the state machine of the rive file and the global state of the application.
+
+
+## 🚀 About Me
+Just a flutter developper who wanna be useful
