@@ -16,6 +16,7 @@ class RiveSelectColor extends ConsumerWidget {
     ref.listen(colorProvider, (previous, next) {
       status!.value = next.toDouble();
     });
+
     return RiveAnimation.asset(
       'assets/spiderhead.riv',
       onInit: (Artboard artboard) async {

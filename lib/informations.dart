@@ -1,4 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:spiderhead/main.dart';
+
+class N40 {
+  static String codeName = "N-40";
+  static String name = "Luvactin";
+  static String codeBar = "NDC 46857 - 312 - 09";
+}
+
+class PreInformation extends ConsumerWidget {
+  const PreInformation({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    // TODO: implement build
+    var numberStatus = ref.watch(colorProvider);
+    throw UnimplementedError();
+  }
+}
 
 class Informations extends StatelessWidget {
   const Informations({super.key});

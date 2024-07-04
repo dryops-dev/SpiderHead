@@ -1,0 +1,18 @@
+
+State App V1
+
+- Numéro de la couleur
+
+1 . 2 . 3 . 4 . 5
+
+Est ce qu'on garde l'angle de l'injection ? (non)
+Après injection, on n'a pas le statue de la personne (a verifier)
+
+
+APP v2
+
+Avoir la page d'acceuil avec les différentes personnes
+
+
+APP v3
+Page Option avec présentation dev, icon etc

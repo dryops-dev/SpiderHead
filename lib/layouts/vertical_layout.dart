@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:spiderhead/arrows_icons/arrow_icon.dart';
 import 'package:spiderhead/circular_slider/circular_slider.dart';
-import 'package:spiderhead/data_widgets/heartrate_box.dart';
-import 'package:spiderhead/data_widgets/id_box.dart';
+import 'package:spiderhead/data_widgets/data_widget.dart';
+import 'package:spiderhead/data_widgets/widgets/heartrate_box.dart';
+import 'package:spiderhead/data_widgets/widgets/id_box.dart';
 import 'dart:math' as math;
 
-import 'package:spiderhead/data_widgets/name_box.dart';
-import 'package:spiderhead/data_widgets/quantity_box.dart';
+import 'package:spiderhead/data_widgets/widgets/name_box.dart';
+import 'package:spiderhead/data_widgets/widgets/quantity_box.dart';
 import 'package:spiderhead/informations.dart';
 import 'package:spiderhead/rive_animation.dart';
 
@@ -68,35 +69,7 @@ class _MyVerticalLayoutState extends State<MyVerticalLayout> {
             //// TEXT AND PROGRESS BAR
             //
             //
-            const SizedBox(
-              height: 150,
-              child: Column(
-                children: [
-                  NameBoxPrefix(),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 16),
-                    child: Row(
-                      children: [
-                        Expanded(flex: 1, child: NameBox()),
-                        SizedBox(width: 20),
-                        Expanded(flex: 1, child: IdBox()),
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(8, 8, 8, 0),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Expanded(flex: 1, child: HeartBox()),
-                        SizedBox(width: 20),
-                        Expanded(flex: 1, child: QuantityBox()),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
+            const InformationsWidgetVertical(),
 
             //// RIVE APPLICATION
             //
