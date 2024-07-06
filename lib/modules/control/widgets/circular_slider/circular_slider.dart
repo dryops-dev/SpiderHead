@@ -1,8 +1,8 @@
-import 'package:spiderhead/circular_slider/color_slider.dart';
-import 'package:spiderhead/circular_slider/touch_slider.dart';
+import 'package:spiderhead/modules/control/widgets/circular_slider/color_slider.dart';
+import 'package:spiderhead/modules/control/widgets/circular_slider/touch_slider.dart';
 import 'package:spiderhead/utils/maths.dart';
 import 'package:flutter/material.dart';
-import 'package:spiderhead/circular_slider/decor_slider.dart';
+import 'package:spiderhead/modules/control/widgets/circular_slider/decor_slider.dart';
 
 class CircularSlider extends StatefulWidget {
   final ValueChanged<double> onAngleChanged;

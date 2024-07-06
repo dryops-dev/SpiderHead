@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:spiderhead/data_widgets/widgets/heartrate_box.dart';
-import 'package:spiderhead/data_widgets/widgets/id_box.dart';
-import 'package:spiderhead/data_widgets/widgets/name_box.dart';
-import 'package:spiderhead/data_widgets/widgets/quantity_box.dart';
-import 'package:spiderhead/rive_animation.dart';
+import 'package:spiderhead/modules/control/widgets/data_widgets/widgets/heartrate_box.dart';
+import 'package:spiderhead/modules/control/widgets/data_widgets/widgets/id_box.dart';
+import 'package:spiderhead/modules/control/widgets/data_widgets/widgets/name_box.dart';
+import 'package:spiderhead/modules/control/widgets/data_widgets/widgets/quantity_box.dart';
+import 'package:spiderhead/modules/control/widgets/rive_animation.dart';
 
 class InformationsWidgetVertical extends StatelessWidget {
   const InformationsWidgetVertical({super.key});
@@ -36,6 +36,7 @@ class InformationsWidgetVertical extends StatelessWidget {
               ],
             ),
           ),
+          LoadingBar(),
         ],
       ),
     );
